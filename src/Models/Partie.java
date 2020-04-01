@@ -14,6 +14,17 @@ public class Partie {
         plateau = new Plateau();
     }
 
+    public Joueur whoWinTheGame(Pion.PionType type){
+        if(type == null) {
+            return null;
+        } else if (type.equals(Pion.PionType.CROIX)) {
+            return joueurs[0];
+        } else if (type.equals(Pion.PionType.ROND)){
+            return joueurs[1];
+        }
+        return null;
+    }
+
     public Pion placerUnPion(Pion pion) {
         plateau.pionsJoues[pion.posX][pion.posY] = pion;
         return pion;
