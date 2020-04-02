@@ -33,7 +33,7 @@ public class Plateau {
      * @throws PionOutOfPlateau Si le pion veut être poser en dehors du plateau
      * @throws PionOverlapAnOtherPion Si le pion veut être poser sur un autre pion
      */
-    public void placerUnPion(int x, int y, Pion pion) throws PionOutOfPlateau, PionOverlapAnOtherPion {
+    public Pion placerUnPion(int x, int y, Pion pion) throws PionOutOfPlateau, PionOverlapAnOtherPion {
         if(     x > nombreDeCase
                 || x < 0
                 || y > nombreDeCase
@@ -44,6 +44,7 @@ public class Plateau {
             throw new PionOverlapAnOtherPion("Il a déjà un pion en x : " + x + " et y : " + y);
 
         grille[x][y] = pion;
+        return pion;
     }
 
 }

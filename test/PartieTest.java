@@ -1,11 +1,35 @@
+import Models.Joueur;
 import Models.Partie;
 import Models.Pion;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PartieTest {
+    // JOUEUR SUIVANT
+    @Test
+    public void joueurSuivantCorrectTest(){
+        Partie partie = new Partie();
+        Joueur joueur2 = partie.joueurs[1];
+        partie.joueurSuivant();
+        assertEquals(joueur2,partie.currentJoueur);
+    }
+
+    // IS FIN PARTIE
+    @Test
+    public void isFinPartieCorrectTest(){
+        Partie partie = new Partie();
+        Pion pion = new Pion(partie.currentJoueur.pionType);
+        partie.plateau.grille = new Pion[][]{
+                {pion,pion,pion},
+                {pion,pion,pion},
+                {pion,pion,null}
+        };
+        partie.troisColoneAligne();
+        partie.troisLigneAligne();
+        partie.troisDiagonalAligne();
+        assertTrue(partie.isFinPartie());
+    }
 
     // TEST PION LIGN ALIGN
     @Test
