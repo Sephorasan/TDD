@@ -26,4 +26,37 @@ public class PlateauTest {
             plateau.totalPions = 6;
             assertFalse(plateau.isPlateauPlein());
         }
+
+        @Test
+        public void placerPionCorrectTest(){
+            Plateau plateau = new Plateau();
+            int x = 1, y = 2;
+            Pion pion = new Pion(Pion.Type.CROIX);
+            plateau.placerPion(x,y,pion);
+            assertEquals(pion,plateau.grille[x][y]);
+        }
+
+        @Test
+        public void placerPionPasCorrectTest(){
+            /*Plateau plateau = new Plateau();
+            int x = 4, y = 6;
+            Pion pion = new Pion(Pion.Type.CROIX);
+            plateau.placerPion(x,y,pion);
+            assertNotEquals(pion,plateau.grille[x][y]);*/
+    }
+
+        @Test
+        public void incrementationDuTotalDePionsCorrectTest() {
+            /*Plateau plateau = new Plateau();
+            plateau.totalPions = 9;
+            assertEquals(plateau.incrementationDuTotalDePions()); */
+        }
+
+        @Test
+        public void incrementationDuTotalDePionsPasCorrectTest() {
+            /*Plateau plateau = new Plateau();
+            plateau.totalPions = 10;
+            assertEquals(plateau.incrementationDuTotalDePions()); */
+    }
+
 }
