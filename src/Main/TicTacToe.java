@@ -5,10 +5,11 @@ import Views.ViewMain;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class TicTacToe extends Application {
-    public Group root;
+    public VBox root;
     public Scene scene;
     public ViewMain viewMain;
     public ControllerMain controllerMain;
@@ -20,7 +21,7 @@ public class TicTacToe extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("TICTACTOE!");
-        Group root = new Group();
+        VBox root = new VBox();
         viewMain = new ViewMain(root);
         controllerMain = new ControllerMain(this);
 

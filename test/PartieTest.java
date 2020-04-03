@@ -24,6 +24,7 @@ public class PartieTest {
     //CONSTRUCTOR
     @Test
     public void constructorPartieCorrect(){
+        assertFalse(partie.end);
         assertEquals(0,partie.indiceJoueur);
         assertEquals(Pion.Type.CROIX,partie.joueurs[0].pionType);
         assertEquals(Pion.Type.ROUND,partie.joueurs[1].pionType);
@@ -32,6 +33,7 @@ public class PartieTest {
 
     @Test
     public void constructorPartieNotCorrect(){
+        assertTrue(partie.end);
         assertNotEquals(1,partie.indiceJoueur);
         assertNotEquals(Pion.Type.CROIX,partie.joueurs[1].pionType);
         assertNotEquals(Pion.Type.ROUND,partie.joueurs[0].pionType);
@@ -85,6 +87,7 @@ public class PartieTest {
     @ParameterizedTest(name = "{0} + {1} + {2} should equal to true")
     @CsvSource({    "false,false,true",
                     "false,true,true",
+                    "false,true,false",
                     "true,false,false",
                     "true,false,true",
                     "true,true,false",

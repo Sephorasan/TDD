@@ -4,33 +4,33 @@ import Controllers.ControllerMain;
 import Models.Joueur;
 import Models.Pion;
 import Models.Plateau;
+import Views.GrapicalElement.GraphicalCase;
 import javafx.scene.Group;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class ViewMain {
-    public Group root;
-    public Text consoleText;
-    public int sizeRectangle = 50;
+    public VBox root;
+    public Group grpGame;
+    public VBox vBoxConsoletext;
+    public Text textConsole;
 
-    public ViewMain(Group root) {
+    public ViewMain(VBox root) {
         this.root = root;
-        consoleText = new Text();
-
-        root.getChildren().addAll();
+        grpGame = new Group();
+        vBoxConsoletext= new VBox();
+        vBoxConsoletext.getChildren().add(textConsole = new Text("A Tour du Joueur 1"));
+        root.getChildren().addAll(grpGame,vBoxConsoletext);
     }
 
     public void initPlateauGUI(Plateau plateau, ControllerMain controllerMain) {
         for (int i = 0; i < plateau.nombreDeCase ; i++) {
             for (int j = 0; j < plateau.nombreDeCase; j++) {
-                Rectangle rect = new Rectangle();
-                rect.setWidth(sizeRectangle);
-                rect.setHeight(sizeRectangle);
-                rect.setLayoutX(i*sizeRectangle);
-                rect.setLayoutY(j*sizeRectangle);
-                rect.setOnMouseClicked(controllerMain);
-                root.getChildren().add(rect);
+                GraphicalCase graphCase = new GraphicalCase(i,j);
+                graphCase.setOnMouseClicked(controllerMain);
+                grpGame.getChildren().add(graphCase);
             }
         }
     }
@@ -44,6 +44,6 @@ public class ViewMain {
     }
 
     public void updateConsole(String message){
-
+        textConsole.setText(message);
     }
 }

@@ -11,7 +11,7 @@ public class Plateau {
     public Plateau(){
         nombreDeCase = 3;
         grille = new Pion[nombreDeCase][nombreDeCase];
-        totalPions = 9;
+        totalPions = 0;
     }
 
     /**

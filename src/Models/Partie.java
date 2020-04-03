@@ -5,8 +5,10 @@ public class Partie {
         public Joueur currentJoueur;
         public Plateau plateau;
         public int indiceJoueur;
+        public boolean end;
 
         public Partie(){
+            end= false;
             indiceJoueur = 0;
             joueurs = new Joueur[2];
             joueurs[0] = new Joueur(Pion.Type.CROIX);
@@ -44,7 +46,7 @@ public class Partie {
      * @return true if a player gagne
      */
     public boolean isCurrentPlayerWinTheGame(boolean troisLigne, boolean troisColonne, boolean deuxDiag){
-        return currentJoueur.win = (troisLigne || troisLigne || deuxDiag);
+        return currentJoueur.win = (troisLigne || troisColonne || deuxDiag);
     }
 
     /**
