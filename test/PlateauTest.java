@@ -13,8 +13,6 @@ public class PlateauTest {
             assertTrue(plateau.verifierSiMouvementPossible(x,y));
         }
 
-        // TODO: Faire PionOutOfPlateau Thow et DoesNotThrow
-
         @Test
         public void verifierMouvementPossiblePionOverlapAnOtherPionThrowCorrectTest() throws PionOutOfPlateau, PionOverlapAnOtherPion {
             Plateau plateau = new Plateau();
@@ -30,6 +28,20 @@ public class PlateauTest {
             int x=1,y=1;
             assertDoesNotThrow(() -> plateau.verifierSiMouvementPossible(x,y));
         }
+
+        @Test
+        public void verifierMouvementPossiblePionOutOfPlateauThrowCorrectTest() throws PionOutOfPlateau, PionOverlapAnOtherPion{
+            Plateau plateau = new Plateau();
+            int x = 4, y = 8;
+            assertThrows(PionOutOfPlateau.class, () -> plateau.verifierSiMouvementPossible(x, y));
+        }
+
+        @Test
+        public void verifierMouvementPossiblePionOutOfPlateauDoesNotThrowCorrectTest() throws PionOutOfPlateau, PionOverlapAnOtherPion{
+            Plateau plateau = new Plateau();
+            int x = 2, y = 2;
+            assertDoesNotThrow(() -> plateau.verifierSiMouvementPossible(x, y));
+    }
 
         @Test
         public void isPlateauPleinCorrectTest(){
@@ -61,15 +73,17 @@ public class PlateauTest {
             for (int i = 0; i < expected; i++) {
                 plateau.incrementationDuTotalDePions();
             }
-            assertEquals(expected,plateau.nombreDeCase);
+            assertEquals(expected,plateau.totalPions);
         }
 
-        // TODO: Faire ca
         @Test
         public void incrementationDuTotalDePionsPasCorrectTest() {
-            /*Plateau plateau = new Plateau();
-            plateau.totalPions = 10;
-            assertEquals(plateau.incrementationDuTotalDePions());*/
+            Plateau plateau = new Plateau();
+            int expected = -1;
+            for (int i = 0; i < expected; i++) {
+                plateau.incrementationDuTotalDePions();
+            }
+            assertNotEquals(expected,plateau.totalPions);
     }
 
 }
