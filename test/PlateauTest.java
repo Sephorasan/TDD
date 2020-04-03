@@ -12,4 +12,18 @@ public class PlateauTest {
             int x = 1, y = 1;
             assertTrue(plateau.verifierSiMouvementPossible(x,y));
         }
+
+        @Test
+        public void isPlateauPleinCorrectTest(){
+            Plateau plateau = new Plateau();
+            plateau.totalPions = 9;
+            assertTrue(plateau.isPlateauPlein());
+        }
+
+        @Test
+        public void isPlateauPleinPasCorrectTest(){
+            Plateau plateau = new Plateau();
+            plateau.totalPions = 6;
+            assertFalse(plateau.isPlateauPlein());
+        }
 }
