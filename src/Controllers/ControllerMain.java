@@ -43,9 +43,11 @@ public class ControllerMain implements EventHandler<MouseEvent> {
                     partie.joueurSuivant();
                     main.viewMain.updateConsole("Au tour du Joueur " + (partie.indiceJoueur + 1));
                 } catch (PionOutOfPlateau pionOutOfPlateau) {
-                    main.viewMain.updateConsole(pionOutOfPlateau.getMessage());
+                    main.viewMain.updateConsole(    "Au tour du Joueur " + (partie.indiceJoueur + 1) + " !!! "
+                                                    + pionOutOfPlateau.getMessage());
                 } catch (PionOverlapAnOtherPion pionOverlapAnOtherPion) {
-                    main.viewMain.updateConsole(pionOverlapAnOtherPion.getMessage());
+                    main.viewMain.updateConsole(    "Au tour du Joueur " + (partie.indiceJoueur + 1) + " !!! "
+                                                    + pionOverlapAnOtherPion.getMessage());
                 }
             }
             if(partie.end){
