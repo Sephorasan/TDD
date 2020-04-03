@@ -46,7 +46,7 @@ public class Plateau {
         return true;
     }
 
-    public void placerPion(int x, int y, Pion pion){
+    public void placerPion(int x, int y, Pion pion) {
         grille[x][y] = pion;
     }
 
