@@ -28,16 +28,30 @@ public class Partie {
 
     /**
      * Test si c'est la fin de la partie
+     * @param currentJoueurWin boolean win du joueur courant
+     * @param isPlateauPlein cf: -> plateau.isPlateauPlein()
      * @return true si partie terminé
      */
-    public boolean isFinPartie(){
-            return currentJoueur.win || plateau.isPlateauPlein();
+    public boolean isFinPartie(boolean currentJoueurWin, boolean isPlateauPlein){
+            return currentJoueurWin || isPlateauPlein;
     }
 
     /**
-     * Si on trouve une ligne avec le même type de pion 3fois le joueur actuel gagne
+     * Verifie si le joueur actuel gagne (et met a jour l'attribut win du joueur actuelle)
+     * @param troisLigne cf -> methode isTroisLigneAligne()
+     * @param troisColonne cf -> methode isTroisCoolonneAligne()
+     * @param deuxDiag cf -> methode isTroisDiagonaleAligne()
+     * @return true if a player gagne
      */
-    public void troisLigneAligne(){
+    public boolean isCurrentPlayerWinTheGame(boolean troisLigne, boolean troisColonne, boolean deuxDiag){
+        return currentJoueur.win = (troisLigne || troisLigne || deuxDiag);
+    }
+
+    /**
+     * Verifie si le joueur actuelle a 3 pions alignée en ligne
+     * @return true if 3 pions en ligne
+     */
+    public boolean isTroisLigneAligne(){
             Pion.Type currentPionType = currentJoueur.pionType;
             for (int i = 0; i < plateau.nombreDeCase; i++) {
                 int count = 0;
@@ -46,14 +60,17 @@ public class Partie {
                     if(plateau.grille[i][j].type.equals(currentPionType)) count++;
                     if(!plateau.grille[i][j].type.equals(currentPionType)) break;
                 }
-                if(count==3) currentJoueur.win = true;
+                if(count==3)  return true;
             }
+            return false;
         };
 
+
     /**
-     * Si on trouve une colonne avec le même type de pion 3fois le joueur actuel gagne
+     * Verifie si le joueur actuelle a 3 pions alignée en colonne
+     * @return true if 3 pions en colonne
      */
-    public void troisColoneAligne(){
+    public boolean isTroisColoneAligne(){
             Pion.Type currentPionType = currentJoueur.pionType;
             for (int i = 0; i < plateau.nombreDeCase; i++) {
                 int count = 0;
@@ -62,14 +79,16 @@ public class Partie {
                     if(plateau.grille[j][i].type.equals(currentPionType)) count++;
                     if(!plateau.grille[j][i].type.equals(currentPionType)) break;
                 }
-                if(count==3) currentJoueur.win = true;
+                if(count==3) return true;
             }
+            return false;
         }
 
     /**
-     * Si on trouve une diagonal avec le même type de pion 3fois le joueur actuel gagne
+     * Verifie si le joueur actuelle a 3 pions alignée en diagonale
+     * @return true if 3 pions en diagonale
      */
-    public void troisDiagonalAligne(){
+    public boolean isTroisDiagonalAligne(){
             Pion.Type currentPionType = currentJoueur.pionType;
             for (int i = 0; i < plateau.nombreDeCase; i+=2) {
                 int count = 0;
@@ -80,7 +99,8 @@ public class Partie {
                     if(plateau.grille[x][y].type.equals(currentPionType)) count++;
                     if(!plateau.grille[x][y].type.equals(currentPionType)) break;
                 }
-                if(count==3) currentJoueur.win = true;
+                if(count==3) return true;
             }
+            return false;
         }
 }

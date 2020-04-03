@@ -1,179 +1,220 @@
 import Models.Joueur;
 import Models.Partie;
 import Models.Pion;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PartieTest {
+
+    private Partie partie;
+    private Pion croix;
+    private Pion rond;
+
+    @BeforeEach
+    public void init(){
+         partie = new Partie();
+         croix = new Pion(Pion.Type.CROIX);
+         rond = new Pion(Pion.Type.ROUND);
+    }
+
+    //CONSTRUCTOR
+    @Test
+    public void constructorPartieCorrect(){
+        assertEquals(0,partie.indiceJoueur);
+        assertEquals(Pion.Type.CROIX,partie.joueurs[0].pionType);
+        assertEquals(Pion.Type.ROUND,partie.joueurs[1].pionType);
+        assertEquals(partie.currentJoueur, partie.joueurs[0]);
+    }
+
+    @Test
+    public void constructorPartieNotCorrect(){
+        assertNotEquals(1,partie.indiceJoueur);
+        assertNotEquals(Pion.Type.CROIX,partie.joueurs[1].pionType);
+        assertNotEquals(Pion.Type.ROUND,partie.joueurs[0].pionType);
+        assertNotEquals(partie.currentJoueur, partie.joueurs[1]);
+    }
+
     // JOUEUR SUIVANT
     @Test
-    public void joueurSuivantCorrectTest(){
-        Partie partie = new Partie();
+    public void joueurSuivantJ2CorrectTest(){
         Joueur joueur2 = partie.joueurs[1];
         partie.joueurSuivant();
         assertEquals(joueur2,partie.currentJoueur);
     }
 
-    // IS FIN PARTIE
     @Test
-    public void isFinPartieCorrectTest(){
-        Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
-        partie.plateau.grille = new Pion[][]{
-                {pion,pion,pion},
-                {pion,pion,pion},
-                {pion,pion,null}
-        };
-        partie.troisColoneAligne();
-        partie.troisLigneAligne();
-        partie.troisDiagonalAligne();
-        assertTrue(partie.isFinPartie());
+    public void joueurSuivantJ1CorrectTest(){
+        Joueur joueur1 = partie.joueurs[0];
+        partie.joueurSuivant();
+        partie.joueurSuivant();
+        assertEquals(joueur1,partie.currentJoueur);
     }
 
-    // TEST PION LIGN ALIGN
     @Test
-    public void troisPionColonneAligneCorrectCAS1Test(){
-        Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
-        partie.plateau.grille = new Pion[][]{
-                {pion,null,null},
-                {pion,null,null},
-                {pion,null,null}
-        };
-        partie.troisColoneAligne();
+    public void joueurSuivantJ2NotCorrectTest(){
+        Joueur joueur1 = partie.joueurs[0];
+        partie.joueurSuivant();
+        assertNotEquals(joueur1,partie.currentJoueur);
+    }
+
+    @Test
+    public void joueurSuivantJ1NotCorrectTest(){
+        Joueur joueur2 = partie.joueurs[1];
+        partie.joueurSuivant();
+        partie.joueurSuivant();
+        assertNotEquals(joueur2,partie.currentJoueur);
+    }
+
+    // IS FIN PARTIE
+    @ParameterizedTest(name = "{0} + {1} should equal to true")
+    @CsvSource({ "true,false", "false,true", "true,true" })
+    public void isFinPartieCorrectTest(boolean arg0, boolean arg1){
+        assertTrue(partie.isFinPartie(arg0,arg1));
+    }
+
+    @Test
+    public void isFinPartieNotCorrectTest(){
+        assertFalse(partie.isFinPartie(false,false));
+    }
+
+    // IS CURRENT PLAYER WIN
+    @ParameterizedTest(name = "{0} + {1} + {2} should equal to true")
+    @CsvSource({    "false,false,true",
+                    "false,true,true",
+                    "true,false,false",
+                    "true,false,true",
+                    "true,true,false",
+                    "true,true,true" })
+    public void isCurrentPlayerWinCorrectTest(boolean arg0, boolean arg1,boolean arg2){
+        assertTrue(partie.isCurrentPlayerWinTheGame(arg0,arg1,arg2));
         assertTrue(partie.currentJoueur.win);
+    }
+
+    @Test
+    public void isCurrentPlayerNotWinYetCorrectTest(){
+        assertFalse(partie.isCurrentPlayerWinTheGame(false,false,false));
+        assertFalse(partie.currentJoueur.win);
+    }
+
+
+    // TEST PION LIGN ALIGN
+    public void troisPionColonneAligneCorrectCAS1Test(){
+        partie.plateau.grille = new Pion[][]{
+                {croix,null,null},
+                {croix,rond,null},
+                {croix,null,rond}
+        };
+        assertTrue(partie.isTroisColoneAligne());
     }
 
     @Test
     public void troisPionColonneAligneCorrectCAS2Test(){
-        Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
+
         partie.plateau.grille = new Pion[][]{
-                {null,pion,null},
-                {null,pion,null},
-                {null,pion,null}
+                {null,croix,rond},
+                {rond,croix,null},
+                {null,croix,null}
         };
-        partie.troisColoneAligne();
-        assertTrue(partie.currentJoueur.win);
+        assertTrue(partie.isTroisColoneAligne());
     }
 
     @Test
     public void troisPionColonneAligneCorrectCAS3Test(){
-        Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
         partie.plateau.grille = new Pion[][]{
-                {null,null,pion},
-                {null,null,pion},
-                {null,null,pion}
+                {rond,null,croix},
+                {null,rond,croix},
+                {null,null,croix}
         };
-        partie.troisColoneAligne();
-        assertTrue(partie.currentJoueur.win);
+        assertTrue(partie.isTroisColoneAligne());
     }
 
     @Test
     public void troisPionColonneAligneNotCorrectTest(){
-        Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
         partie.plateau.grille = new Pion[][]{
-                {null,null,pion},
-                {null,null,null},
-                {null,null,pion}
+                {null,null,croix},
+                {null,rond,null},
+                {null,null,croix}
         };
-        partie.troisColoneAligne();
-        assertFalse(partie.currentJoueur.win);
+        assertFalse(partie.isTroisColoneAligne());
     }
 
     // TEST PION LIGN ALIGN
     @Test
     public void troisPionLigneAligneCorrectCAS1Test(){
         Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
         partie.plateau.grille = new Pion[][]{
-                {pion,pion,pion},
-                {null,null,null},
-                {null,null,null}
+                {croix,croix,croix},
+                {null,null,rond},
+                {rond,null,null}
         };
-        partie.troisLigneAligne();
-        assertTrue(partie.currentJoueur.win);
+        assertTrue(partie.isTroisLigneAligne());
     }
 
     @Test
     public void troisPionLigneAligneCorrectCAS2Test(){
         Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
         partie.plateau.grille = new Pion[][]{
-                {null,null,null},
-                {pion,pion,pion},
-                {null,null,null}
+                {rond,null,null},
+                {croix,croix,croix},
+                {null,rond,null}
         };
-        partie.troisLigneAligne();
-        assertTrue(partie.currentJoueur.win);
+        assertTrue(partie.isTroisLigneAligne());
     }
 
     @Test
     public void troisPionLigneAligneCorrectCAS3Test(){
         Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
         partie.plateau.grille = new Pion[][]{
-                {null,null,null},
-                {null,null,null},
-                {pion,pion,pion}
+                {rond,null,null},
+                {null,rond,null},
+                {croix,croix,croix}
         };
-        partie.troisLigneAligne();
-        assertTrue(partie.currentJoueur.win);
+        assertTrue(partie.isTroisLigneAligne());
     }
 
     @Test
     public void troisPionLigneAligneNotCorrectTest(){
         Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
         partie.plateau.grille = new Pion[][]{
+                {rond,null,null},
                 {null,null,null},
-                {null,null,null},
-                {pion,null,pion}
+                {croix,null,croix}
         };
-        partie.troisLigneAligne();
-        assertFalse(partie.currentJoueur.win);
+        assertFalse(partie.isTroisLigneAligne());
     }
 
     // TEST PION DIAG ALIGN
     @Test
     public void troisPionDiagonalAligneCorrectCAS1Test(){
-        Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
         partie.plateau.grille = new Pion[][]{
-                {null,null,pion},
-                {null,pion,null},
-                {pion,null,null}
+                {rond,null,croix,},
+                {rond,croix,null},
+                {croix,null,null}
         };
-        partie.troisDiagonalAligne();
-        assertTrue(partie.currentJoueur.win);
+        assertTrue(partie.isTroisDiagonalAligne());
     }
 
     @Test
     public void troisPionDiagonalAligneCorrectCAS2Test(){
-        Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
         partie.plateau.grille = new Pion[][]{
-                {pion,null,null},
-                {null,pion,null},
-                {null,null,pion}
+                {croix,null,null},
+                {rond,croix,null},
+                {rond,null,croix}
         };
-        partie.troisDiagonalAligne();
-        assertTrue(partie.currentJoueur.win);
+        assertTrue(partie.isTroisDiagonalAligne());
     }
 
     @Test
     public void troisPionDiagonalAligneNotCorrectTest(){
-        Partie partie = new Partie();
-        Pion pion = new Pion(partie.currentJoueur.pionType);
         partie.plateau.grille = new Pion[][]{
-                {pion,null,null},
-                {null,null,null},
-                {null,null,pion}
+                {croix,null,null},
+                {null,rond,null},
+                {null,null,croix}
         };
-        partie.troisDiagonalAligne();
-        assertFalse(partie.currentJoueur.win);
+        assertFalse(partie.isTroisDiagonalAligne());
     }
 }
