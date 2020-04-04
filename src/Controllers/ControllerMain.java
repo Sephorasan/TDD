@@ -26,7 +26,7 @@ public class ControllerMain implements EventHandler<MouseEvent> {
         partie = new Partie();
         plateau = partie.plateau;
         main.viewMain.setEvent(this);
-        main.viewMain.textTitle.setText("Au tour du Joueur " + (partie.indiceJoueur + 1));
+        main.viewMain.textConsole.setText("Au tour du Joueur " + (partie.indiceJoueur + 1));
         main.viewMain.initPlateauGUI(partie.plateau,this);
     }
 
@@ -59,19 +59,19 @@ public class ControllerMain implements EventHandler<MouseEvent> {
                     if(partie.end){
                         // SI UN JOUER A GAGNER
                         if(partie.currentJoueur.win) {
-                            main.viewMain.textTitle.setText("Partie Terminée!! \nLe Joueur " + (partie.indiceJoueur + 1 ) + " gagne !");
+                            main.viewMain.textConsole.setText("Partie Terminée!! \nLe Joueur " + (partie.indiceJoueur + 1 ) + " gagne !");
                         } else { // SINON EGALITE CAR PLATEAU PLEIN
-                        main.viewMain.textTitle.setText("Partie Terminée!! \nEgalité !");
+                        main.viewMain.textConsole.setText("Partie Terminée!! \nEgalité !");
                         }
                         // ON AJOUTE UN BTN POUR REJOUER
                         main.viewMain.root.getChildren().add(main.viewMain.btnRetry);
                     } else { // SINON LA PARTIE CONTINUE
                         partie.joueurSuivant();
-                        main.viewMain.textTitle.setText("Au tour du Joueur " + (partie.indiceJoueur + 1));
+                        main.viewMain.textConsole.setText("Au tour du Joueur " + (partie.indiceJoueur + 1));
                     }
                     //SI ERREUR ON AFFICHE UN MESSAGE D'ERREUR
                 } catch (PionOutOfPlateau | PionOverlapAnOtherPion pionOutOfPlateau) {
-                    main.viewMain.textTitle.setText(    "Au tour du Joueur " + (partie.indiceJoueur + 1) + " !!!\n "
+                    main.viewMain.textConsole.setText(    "Au tour du Joueur " + (partie.indiceJoueur + 1) + " !!!\n "
                                                     + pionOutOfPlateau.getMessage());
                 }
             }
