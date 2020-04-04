@@ -33,7 +33,7 @@ public class PartieTest {
 
     @Test
     public void constructorPartieNotCorrect(){
-        assertTrue(partie.end);
+        assertNotEquals(true,partie.end);
         assertNotEquals(1,partie.indiceJoueur);
         assertNotEquals(Pion.Type.CROIX,partie.joueurs[1].pionType);
         assertNotEquals(Pion.Type.ROUND,partie.joueurs[0].pionType);

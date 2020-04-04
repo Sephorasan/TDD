@@ -1,49 +1,62 @@
 package Views;
 
 import Controllers.ControllerMain;
-import Models.Joueur;
-import Models.Pion;
 import Models.Plateau;
 import Views.GrapicalElement.GraphicalCase;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 public class ViewMain {
     public VBox root;
     public Group grpGame;
-    public VBox vBoxConsoletext;
-    public Text textConsole;
+    public Label textConsole;
+    public Label textTitle;
+    public Button btnRetry;
 
     public ViewMain(VBox root) {
         this.root = root;
+        this.root.setAlignment(Pos.CENTER);
+        // BOX DU JEU
         grpGame = new Group();
-        vBoxConsoletext= new VBox();
-        vBoxConsoletext.getChildren().add(textConsole = new Text("A Tour du Joueur 1"));
-        root.getChildren().addAll(grpGame,vBoxConsoletext);
+        grpGame.getStyleClass().add("shadow");
+
+        // BTN RETRY
+        btnRetry = new Button("TRY AGAIN");
+        btnRetry.setFont(Font.loadFont(GraphicalCase.class.getResourceAsStream("../../Asset/font/8bit.ttf"), 15));
+        // TITLE
+        textTitle = new Label("TICTACTOE");
+        textTitle.setFont(Font.loadFont(GraphicalCase.class.getResourceAsStream("../../Asset/font/8bit.ttf"), 30));
+        textTitle.setPadding(new Insets(0,0,20,0));
+        // MSG CONSOLE
+        textConsole = new Label("A Tour du Joueur 1");
+        textConsole.setFont(Font.loadFont(GraphicalCase.class.getResourceAsStream("../../Asset/font/8bit.ttf"), 8));
+        textConsole.setTextAlignment(TextAlignment.CENTER);
+        textConsole.setPadding(new Insets(20,0,20,0));
+        // ADD TO ROOT
+        root.getChildren().addAll(textTitle,grpGame,textConsole);
     }
 
+    /**
+     * Init le plateau graphique
+     * @param plateau   model plateau
+     * @param controllerMain le controller pour rendre les element graphique cliquable
+     */
     public void initPlateauGUI(Plateau plateau, ControllerMain controllerMain) {
         for (int i = 0; i < plateau.nombreDeCase ; i++) {
             for (int j = 0; j < plateau.nombreDeCase; j++) {
-                GraphicalCase graphCase = new GraphicalCase(i,j);
+                GraphicalCase graphCase = new GraphicalCase(j,i);
                 graphCase.setOnMouseClicked(controllerMain);
                 grpGame.getChildren().add(graphCase);
             }
         }
     }
-
-    public void drawPlateau(Rectangle rectangle, Joueur joueur){
-        if(joueur.pionType.equals(Pion.Type.CROIX)){
-            rectangle.setFill(Color.RED);
-        } else {
-            rectangle.setFill(Color.BLUE);
-        }
-    }
-
-    public void updateConsole(String message){
-        textConsole.setText(message);
+    public void setEvent(ControllerMain controllerMain) {
+        btnRetry.setOnMouseClicked(controllerMain);
     }
 }

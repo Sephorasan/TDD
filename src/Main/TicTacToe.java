@@ -3,7 +3,6 @@ package Main;
 import Controllers.ControllerMain;
 import Views.ViewMain;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -24,8 +23,10 @@ public class TicTacToe extends Application {
         VBox root = new VBox();
         viewMain = new ViewMain(root);
         controllerMain = new ControllerMain(this);
-
-        primaryStage.setScene(new Scene(root, 400, 400));
+        scene = new Scene(root, 400, 400);
+        scene.getStylesheets().add("Asset/css/style.css");
+        root.getStyleClass().add("bg");
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 }

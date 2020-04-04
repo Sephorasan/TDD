@@ -78,12 +78,13 @@ public class PlateauTest {
 
         @Test
         public void incrementationDuTotalDePionsPasCorrectTest() {
-            /*Plateau plateau = new Plateau();
+            Plateau plateau = new Plateau();
             int expected = -1;
-            for (int i = 0; i < expected; i++) {
+            int turn = 5;
+            for (int i = 0; i < turn; i++) {
                 plateau.incrementationDuTotalDePions();
             }
-            assertNotEquals(expected,plateau.totalPions);*/
+            assertNotEquals(expected,plateau.totalPions);
     }
 
 }
